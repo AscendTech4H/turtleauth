@@ -21,7 +21,7 @@ import (
 
 	_ "github.com/go-sql-driver/mysql"
 
-	".."
+	"github.com/AscendTech4H/turtleauth"
 )
 
 // Credentials which stores google ids.
