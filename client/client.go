@@ -1,3 +1,4 @@
+//Package client implements a client for the turtleauth protocol
 package client
 
 import (
