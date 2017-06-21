@@ -22,6 +22,11 @@ type AuthServer struct {
 	address url.URL
 }
 
+//NewAuthServer returns an AuthServer at the specified address
+func NewAuthServer(addr *url.URL) *AuthServer {
+	return &AuthServer{address: *addr}
+}
+
 func httpErr(r *http.Response) error {
 	return consterr.Error(fmt.Sprintf("HTTP Error with status code %d and message \"%s\"", r.StatusCode, html.EscapeString(r.Status)))
 }
