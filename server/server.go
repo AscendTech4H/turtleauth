@@ -174,7 +174,7 @@ func main() {
 			Expires: expire,
 		}
 		http.SetCookie(w, cook)
-		authaddr := conf.AuthCodeURL(kstr)
+		authaddr := conf.AuthCodeURL(kstr) + "?access_type=offline"
 		http.Redirect(w, r, authaddr, http.StatusMovedPermanently)
 	})
 	http.HandleFunc("/auth", func(w http.ResponseWriter, r *http.Request) {
