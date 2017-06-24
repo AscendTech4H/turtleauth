@@ -216,6 +216,7 @@ func main() {
 		lookup, err := client.Get("https://www.googleapis.com/oauth2/v3/userinfo")
 		if err != nil {
 			http.Error(w, "User info request error", http.StatusUnauthorized)
+			log.Println(err)
 			return
 		}
 		defer lookup.Body.Close()
@@ -223,6 +224,7 @@ func main() {
 		err = json.NewDecoder(lookup.Body).Decode(&uinfo)
 		if err != nil {
 			http.Error(w, "User info request decode error", http.StatusInternalServerError)
+			log.Println(err)
 			return
 		}
 		res, err := db.Query("SELECT id FROM users WHERE email=?", uinfo.Email)
