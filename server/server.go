@@ -109,6 +109,7 @@ func main() {
 	http.HandleFunc("/perm", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodPost {
 			http.Error(w, "Incorrect request method", http.StatusMethodNotAllowed)
+			return
 		}
 		var ac turtleauth.AuthCheck
 		err := gob.NewDecoder(r.Body).Decode(&ac)
