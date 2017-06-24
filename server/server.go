@@ -175,7 +175,7 @@ func main() {
 		}
 		http.SetCookie(w, cook)
 		authaddr := conf.AuthCodeURL(kstr) + "&access_type=offline"
-		http.Redirect(w, r, authaddr, http.StatusMovedPermanently)
+		http.Redirect(w, r, authaddr, http.StatusTemporaryRedirect)
 	})
 	http.HandleFunc("/auth", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodGet {
@@ -246,6 +246,9 @@ func main() {
 				http.Error(w, "Database errror", http.StatusInternalServerError)
 				log.Printf("Database error: %s\n", err.Error())
 				return
+			}
+			if !res.Next() {
+				http.Error(w, "This shouldnt happen", http.StatusInternalServerError)
 			}
 		}
 		err = res.Scan(&id)
