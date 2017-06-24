@@ -96,7 +96,7 @@ func main() {
 		Endpoint: google.Endpoint,
 	}
 	log.Println("Connecting to DB. . . ")
-	db, err := sql.Open("mysql", "/")
+	db, err := sql.Open("mysql", dbs)
 	if err != nil {
 		panic(err)
 	}
