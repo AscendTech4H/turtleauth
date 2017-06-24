@@ -204,6 +204,7 @@ func main() {
 		})
 		if r.URL.Query().Get("state") != cook.Value {
 			http.Error(w, "Unmatched state", http.StatusUnauthorized)
+			log.Println(r.URL.Query().Get("state"), cook.Value)
 			return
 		}
 		tok, err := conf.Exchange(oauth2.NoContext, cook.Value)
