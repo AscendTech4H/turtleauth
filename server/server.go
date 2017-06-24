@@ -207,7 +207,7 @@ func main() {
 			log.Println(r.URL.Query().Get("state"), cook.Value)
 			return
 		}
-		tok, err := conf.Exchange(oauth2.NoContext, cook.Value)
+		tok, err := conf.Exchange(oauth2.NoContext, r.URL.Query().Get("code"))
 		if err != nil {
 			http.Error(w, "Exchange error", http.StatusUnauthorized)
 			log.Printf("Exchange error: %s\n", err.Error())
