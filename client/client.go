@@ -92,6 +92,16 @@ func (a *AuthServer) GetInfo(c http.Cookie) (map[string]string, error) {
 	return o, nil
 }
 
+//AuthReq checks authorization of a request
+func (a *AuthServer) AuthReq(p turtleauth.PermissionClass, r *http.Request) bool {
+	c, err := r.Cookie("turtleauth")
+	if err != nil {
+		return false
+	}
+	s, _ := a.AuthUser(p, *c)
+	return s
+}
+
 type authCheckHandler struct {
 	a *AuthServer
 	h http.Handler
@@ -100,13 +110,7 @@ type authCheckHandler struct {
 }
 
 func (a authCheckHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	c, err := r.Cookie("turtleauth")
-	if err != nil {
-		a.e.ServeHTTP(w, r)
-		return
-	}
-	s, _ := a.a.AuthUser(a.p, *c)
-	if s {
+	if a.a.AuthReq(a.p, r) {
 		a.h.ServeHTTP(w, r)
 	} else {
 		a.e.ServeHTTP(w, r)
