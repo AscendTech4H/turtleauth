@@ -39,7 +39,7 @@ type User struct {
 	Profile       string `json:"profile"`
 	Picture       string `json:"picture"`
 	Email         string `json:"email"`
-	EmailVerified bool `json:"email_verified"`
+	EmailVerified bool   `json:"email_verified"`
 	Gender        string `json:"gender"`
 }
 
@@ -265,8 +265,9 @@ func main() {
 			return
 		}
 		http.SetCookie(w, &http.Cookie{
-			Name:  "turtleauth",
-			Value: cstr,
+			Name:   "turtleauth",
+			Domain: "ascendtech4h.org",
+			Value:  cstr,
 		})
 		//All good - redirect
 		http.Redirect(w, r, dest.Value, http.StatusMovedPermanently)
