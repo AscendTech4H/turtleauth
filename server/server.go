@@ -57,11 +57,16 @@ func main() {
 	var addr string
 	var k string
 	var credfile string
+	var site string
 	flag.StringVar(&dbs, "db", "/", "Database source string")
 	flag.StringVar(&addr, "addr", ":9001", "Server port for authentication")
 	flag.StringVar(&k, "key", ".authkey", "Key file")
 	flag.StringVar(&credfile, "cred", ".cred", "Google oauth2 credentials file")
+	flag.StringVar(&site, "site", "", "Domain name")
 	flag.Parse()
+	if site == "" {
+		panic("site not specified")
+	}
 	log.Println("Loading keys. . . ")
 	d, err := ioutil.ReadFile(k)
 	if err != nil {
@@ -89,7 +94,7 @@ func main() {
 	conf = &oauth2.Config{
 		ClientID:     cred.Cid,
 		ClientSecret: cred.Csecret,
-		RedirectURL:  "https://auth.ascendtech4h.org/auth",
+		RedirectURL:  fmt.Sprintf("https://auth.%s/auth", site),
 		Scopes: []string{
 			"https://www.googleapis.com/auth/userinfo.email", // You have to select your own scope from here -> https://developers.google.com/identity/protocols/googlescopes#google_sign-in
 		},
@@ -266,7 +271,7 @@ func main() {
 		}
 		http.SetCookie(w, &http.Cookie{
 			Name:   "turtleauth",
-			Domain: "ascendtech4h.org",
+			Domain: site,
 			Value:  cstr,
 		})
 		//All good - redirect
